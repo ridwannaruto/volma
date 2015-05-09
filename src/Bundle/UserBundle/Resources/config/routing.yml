@@ -1,0 +1,23 @@
+user_profile:
+    pattern:  /profile/{userId}
+    defaults: { _controller: MoraspiritUserBundle:Profile:index }  
+    
+account:
+    pattern:  /account
+    defaults: { _controller: MoraspiritUserBundle:Account:index } 
+
+forgot_password:
+    pattern:  /forgotpassword
+    defaults: { _controller: MoraspiritUserBundle:Account:forgotPassword } 
+
+reset_password:
+    pattern:  /{userId}/resetpassword
+    defaults: { _controller: MoraspiritUserBundle:Account:resetPassword }
+    
+profile_edit:
+    pattern:  /editprofile
+    defaults: { _controller: MoraspiritUserBundle:Profile:edit }  
+    
+profile_picture:
+    pattern:  /profilepicture
+    defaults: { _controller: MoraspiritUserBundle:Profile:picture }  

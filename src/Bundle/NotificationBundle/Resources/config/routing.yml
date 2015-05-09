@@ -1,0 +1,11 @@
+checkRegisterEmail:
+    pattern:  /check
+    defaults: { _controller: MoraspiritNotificationBundle:Notification:index }  
+    
+notification_see:
+    pattern:  /home/{notificationId}
+    defaults: { _controller: MoraspiritNotificationBundle:Notification:seen }
+    
+allnotification:
+    pattern:  /allnotifications
+    defaults: { _controller: MoraspiritNotificationBundle:Notification:showAll }    
