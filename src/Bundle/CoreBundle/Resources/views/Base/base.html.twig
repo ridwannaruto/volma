@@ -4,14 +4,14 @@
 <head>
 
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="{{ asset('bundles/core/img/favicon.ico') }}">
-    <title>Volma | Moraspirit</title>
+    <link rel="shortcut icon" href="{{ client_icon }}">
+    <title>Volma | {{ client_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Volunteer Management System for Moraspirit">
     <meta name="author" content="Ridwan Shariffdeen">
 
     <!-- The styles -->
-    <link id="bs-css" href={{ asset('bundles/core/css/bootstrap-simplex.css') }} rel="stylesheet">
+    <link id="bs-css" href={{ app_theme }} rel="stylesheet">
     <style type="text/css">
         body {
             padding-bottom: 40px;
@@ -71,6 +71,7 @@
 {% endif %}
 {% endif %}
 
+{% block toolbar %}
 <!-- topbar starts -->
 <div class="navbar">
     <div class="navbar-inner">
@@ -85,7 +86,7 @@
             <table width="100%">
                 <tr>
                     <td width="5%">
-                        <img class="center" src="{{ asset('bundles/ridwansite/images/icon.png') }} " width="40px"/>
+                        <img class="center" src="{{client_icon}} " width="40px"/>
 
                     </td>
                     <td width="64%">
@@ -125,7 +126,7 @@
                                         <li><a href="{{ path('auth_logout') }}">Logout</a></li>
                                     </ul>
                                 </div>
-
+                            {%  block notificationList %}
                                 <div class="btn-group pull-right">
                                     <a data-toggle="dropdown" href="#">
                                         <button class="btn btn-mini btn-round btn-info"><i class="icon-bell"></i>&nbsp;&nbsp;Notifications<span
@@ -237,6 +238,7 @@
 
                                     </ul>
                                 </div>
+                            {% endblock %}
 
                             {% else %}
                                 <a href="{{ path('auth_login') }}">
@@ -253,6 +255,7 @@
     </div>
 </div>
 <!-- topbar ends -->
+{%  endblock %}
 
 {% block dashboard %}
 
@@ -270,15 +273,15 @@
                 <li><a class="ajax-link" href="{{ path('user_home') }}"><i class="icon-home"></i><span
                                 class="hidden-tablet"> Home</span></a></li>
 
-                <li><a class="ajax-link" href=""><i class="icon-eye-open"></i><span
-                                class="hidden-tablet"> Opportunities</span></a></li>
+                {#<li><a class="ajax-link" href=""><i class="icon-eye-open"></i><span#}
+                                {#class="hidden-tablet"> Opportunities</span></a></li>#}
 
                 <li><a class="ajax-link" href="{{ path('project_index') }}"><i class="icon-edit"></i><span
                                 class="hidden-tablet"> Projects</span></a></li>
                 <li><a class="ajax-link" href="{{ path('task_index') }}"><i class="icon-list-alt"></i><span
                                 class="hidden-tablet"> Tasks</span></a></li>
                 <li><a class="ajax-link" href="{{ path('members') }}"><i class="icon-user"></i><span
-                                class="hidden-tablet"> Spiriters</span></a></li>
+                                class="hidden-tablet"> Volunteers</span></a></li>
 
 
             </ul>
@@ -335,7 +338,7 @@
 
 <hr>
 <footer>
-    <p class="pull-left"><strong>Moraspirit </strong>&copy; 2014
+    <p class="pull-left"><strong>{{ client_name }} </strong>&copy; {{ copy_right_year }}
 </footer>
 
 </div><!--/.fluid-container-->

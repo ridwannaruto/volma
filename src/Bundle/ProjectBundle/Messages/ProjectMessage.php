@@ -15,5 +15,6 @@ namespace Bundle\ProjectBundle\Messages;
      public static $MESSAGE_PROJECT_APPOINTED =  "Congratulations! You have been appointed as a Project Manager for a new Project";
 
      public static $MESSAGE_PROJECT_CREATE_SUCCESS = "successfully created new project and notified ";
+     public static $MESSAGE_PROJECT_UPDATE_SUCCESS = "successfully updated new details and notified " ;
      public static $MESSAGE_PROJECT_COMPLETED =  " successfully saved changes and notified user";
 }

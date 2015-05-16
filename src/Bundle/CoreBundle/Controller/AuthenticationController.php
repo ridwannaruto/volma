@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Bundle\CoreBundle\Values\RepositoryName;
 use Bundle\CoreBundle\Values\RouteName;
 use Bundle\CoreBundle\Values\TwigTemplate;
-use Bundle\CoreBundle\Values\Messages\AuthenticationMessage;
+use Bundle\CoreBundle\Messages\AuthenticationMessage;
+use Bundle\CoreBundle\Messages\GenericMessage;
 
 class AuthenticationController extends BaseController
 {
@@ -22,7 +23,7 @@ class AuthenticationController extends BaseController
     public function loginUserAction(Request $request)
     {
 
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             return $this->redirect($this->generateUrl(RouteName::$ROUTE_HOME));
         }
@@ -65,7 +66,7 @@ class AuthenticationController extends BaseController
 
     public function activateUserAction($userID)
     {
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $userRole = $authenticatedUser->getAccesslevel();
             if ($userRole == $this->USER_ROLE_ADMIN || $userRole == $this->USER_ROLE_HEAD) {

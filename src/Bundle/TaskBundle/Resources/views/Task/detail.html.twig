@@ -14,10 +14,10 @@
                      {% if app.session.get('user_id') == Task.leader %}
                     <div class="pull-right">
                         {% if Task.completed == 0%}
-                        <a href=" {{ path('task_completePage', { 'taskId': Task.id }) }}"><button  class="btn btn-small btn-success">complete</button></a>
-                         {% endif %}
+                        <a href=" {{ path('task_feedback', { 'taskId': Task.id }) }}"><button  class="btn btn-small btn-success">complete</button></a>
                         <a href=" {{ path('task_edit', { 'taskId': Task.id }) }}"><button  class="btn btn-small btn-inverse">edit</button></a>
-                        <button class="btn btn-small btn-danger btn-delete" url="{{ path('task_delete', { 'taskId': Task.id }) }}" id="{{Task.id}}" > delete </button>
+                        {% endif %}
+                            <button class="btn btn-small btn-danger btn-delete" url="{{ path('task_delete', { 'taskId': Task.id }) }}" id="{{Task.id}}" > delete </button>
                        
                         <br>
                     </div>

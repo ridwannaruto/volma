@@ -1,4 +1,4 @@
-{%  extends "MoraspiritStyleBundle:Base:Base.html.twig" %}
+{%  extends "CoreBundle:Base:base.html.twig" %}
 
 
 {% block content %}
@@ -65,7 +65,7 @@
 
                             <td width ="5%"></td>
                             <td >
-                                <form name="moraspirit_feedback" method="POST" action="{{path('moraspirit_task_complete',{'taskID': Task.id})}}" class="form-horizontal center">
+                                <form name="feedback" method="POST" action="{{path('task_complete',{'taskId': Task.id})}}" class="form-horizontal center">
 
                                     <div class="control-group">
                                         <h3>Rate</h3>Please provide a rating from 1-10 for this specific task<br><br>
@@ -123,12 +123,12 @@
                                     <br><br>
                                     <div class="control-group primary">                                      
 
-                                        <textarea id="moraspirit_entitybundle_task_description" name="feedback" required="required" placeholder="type your feedback here.." class="span12"></textarea>
+                                        <textarea id="entitybundle_task_description" name="feedback" required="required" placeholder="type your feedback here.." class="span12"></textarea>
 
                                     </div>
 
                                     <br><div class="controls">
-                                        <button type="submit" id="moraspirit_submit" name="complete" class="btn btn-success span6">Complete Task</button>
+                                        <button type="submit" id="submit" name="complete" class="btn btn-success span6">Complete Task</button>
                                     </div>
 
                                 </form>

@@ -17,7 +17,7 @@ class TaskCreateController extends BaseTaskController {
 
     public function newTaskAction(Request $request) {
 
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $accessLevel = $authenticatedUser->getAccesslevel();
 	        $notificationList = $this->getNotificationList($authenticatedUser->getId());

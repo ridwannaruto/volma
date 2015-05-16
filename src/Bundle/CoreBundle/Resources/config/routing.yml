@@ -26,9 +26,6 @@ news_feed:
     pattern:  /newsfeed
     defaults: { _controller: CoreBundle:News:news }
 
-pillar:
-    pattern:  /pillar/{pillarName}
-    defaults: { _controller: CoreBundle:Pillar:details }
 
 user_activate:
     pattern:  /activate/{userID}
@@ -38,8 +35,6 @@ user_reject:
     pattern:  /reject/{userID}
     defaults: { _controller: CoreBundle:Authentication:rejectUser }
 
-members:
-    pattern:  /members
-    defaults: { _controller: CoreBundle:Member:index }
+
 
 

@@ -23,7 +23,7 @@ class ProjectViewController extends BaseProjectController {
     public $KEY_PROJECT_ID = 'projectId';
 
     public function viewAction($projectId, Request $request) {
-        $loggedUser = $this->authenticateAction();
+        $loggedUser = $this->authenticateUser();
         if ($loggedUser) {
             $newComment = New Comment();
             $newComment->setTask(0);

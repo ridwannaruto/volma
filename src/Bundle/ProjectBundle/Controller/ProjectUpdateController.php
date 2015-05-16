@@ -16,7 +16,7 @@ class ProjectUpdateController extends BaseProjectController {
 
 
     public function completeAction(Request $request, $projectId) {
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $project = $this->findEntityById(RepositoryName::$REPOSITORY_PROJECT,$projectId);
             $project->setEnd(new \DateTime());
@@ -48,7 +48,7 @@ class ProjectUpdateController extends BaseProjectController {
     }
 
     public function editProjectAction(Request $request, $projectId) {
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $project = $this->findEntityById(RepositoryName::$REPOSITORY_PROJECT,$projectId);
             $projectManager = $this->getUser($project->getManager());
@@ -87,7 +87,7 @@ class ProjectUpdateController extends BaseProjectController {
                     return $this->redirect($this->generateUrl(RouteName::$ROUTE_PROJECT_DETAIL, array(
                         'projectId' => $projectId,
                         'type' => 'S',
-                        'message' => "succesfully updated new details and notified " . $projectManager->getFirstname())));
+                        'message' => ProjectMessage::$MESSAGE_PROJECT_UPDATE_SUCCESS. $projectManager->getFirstname())));
                 }
 
                 return $this->render(TwigTemplate::$TWIG_PROJECT_EDIT, array(

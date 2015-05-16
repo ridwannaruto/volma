@@ -1,4 +1,4 @@
-{%  extends "MoraspiritStyleBundle:Base:Base.html.twig" %}
+{%  extends "CoreBundle:Base:base.html.twig" %}
 
 
 {% block content %}
@@ -7,7 +7,7 @@
         {% if app.session.get('access') == 'Head' or app.session.get('access') == 'Admin'%}
     <div class="row-fluid">
         <div class="pull-right">
-            <a href="{{path('moraspirit_task_new')}}"><button class="btn btn-round btn-success"><i class="icon-plus"></i> Add Task </button></a>
+            <a href="{{path('task_new')}}"><button class="btn btn-round btn-success"><i class="icon-plus"></i> Add Task </button></a>
            
         </div>
     </div><br>
@@ -46,10 +46,10 @@
 							   {% for task in ITasks %}
                     <tr>
                                 <td>
-                                    <a href="{{path('moraspirit_task_details',{'taskID':task.id})}}" >{{task.taskname}} </a>
+                                    <a href="{{path('task_detail',{'taskId':task.id})}}" >{{task.taskname}} </a>
                                 </td>
                                 <td class="center">
-                                     <a href="{{path('moraspirit_project_details',{'projectID':task.project})}}" >{{task.projectname}} </a>
+                                     <a href="{{path('project_detail',{'projectId':task.project})}}" >{{task.projectname}} </a>
                                 </td>
                                 <td class="center"> 
                                 {{task.description}}
@@ -58,7 +58,7 @@
                                 {{task.pillar}}
                                 </td>
                                 <td class="center"> 
-                                <a href="{{path('moraspirit_profile',{'userID':task.user})}}" >{{task.firstname}} {{task.lastname}} </a> 
+                                <a href="{{path('user_profile',{'userId':task.user})}}" >{{task.firstname}} {{task.lastname}} </a>
 
                                 </td>                                       
                             </tr>
@@ -99,10 +99,10 @@
 							   {% for task in Tasks %}
                             <tr>
                                 <td>
-                                    <a href="{{path('moraspirit_task_details',{'taskID':task.id})}}" >{{task.taskname}} </a>
+                                    <a href="{{path('task_detail',{'taskId':task.id})}}" >{{task.taskname}} </a>
                                 </td>
                                 <td class="center">
-                                     <a href="{{path('moraspirit_project_details',{'projectID':task.project})}}" >{{task.projectname}} </a>
+                                     <a href="{{path('project_detail',{'projectId':task.project})}}" >{{task.projectname}} </a>
                                 </td>
                                 <td class="center"> 
                                 {{task.description}}
@@ -111,7 +111,7 @@
                                 {{task.pillar}}
                                 </td>
                                 <td class="center"> 
-                                <a href="{{path('moraspirit_profile',{'userID':task.user})}}" >{{task.firstname}} {{task.lastname}} </a>
+                                <a href="{{path('user_profile',{'userId':task.user})}}" >{{task.firstname}} {{task.lastname}} </a>
 
                                 </td>                                       
                             </tr>

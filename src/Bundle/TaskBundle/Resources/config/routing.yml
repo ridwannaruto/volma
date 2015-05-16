@@ -1,34 +1,36 @@
 task_index:
-    pattern:  /tasks
+    pattern:  /task/index
     defaults: { _controller: TaskBundle:TaskList:viewList }
     
 task_detail:
-    pattern:  /taskdetails/{taskId}
+    pattern:  /task/details/{taskId}
     defaults: { _controller: TaskBundle:TaskView:view }
     
 task_details_notification:
-    pattern:  /taskdetails/{taskId}/{notificationId}
+    pattern:  /task/details/{taskId}/{notificationId}
     defaults: { _controller: TaskBundle:Task:notification }
+    methods: POST
     
 task_new:
-    pattern:  /newTask
+    pattern:  /task/new
     defaults: { _controller: TaskBundle:TaskCreate:newTask }
     
 task_edit:
-    pattern:  /editTask/{taskId}
+    pattern:  /task/edit/{taskId}
     defaults: { _controller: TaskBundle:TaskUpdate:editTask }
     
 task_delete:
-    pattern:  /deleteTask/{taskId}
+    pattern:  /task/delete/{taskId}
     defaults: { _controller: TaskBundle:TaskDelete:deleteTask }
     methods: POST
     
 task_feedback:
-    pattern:  /feedbackTask/{taskId}
-    defaults: { _controller: TaskBundle:TaskUpdate:completePage }
+    pattern:  /task/feedback/{taskId}
+    defaults: { _controller: TaskBundle:TaskUpdate:feedback }
+
     
 task_complete:
-    pattern:  /completeTask/{taskId}
+    pattern:  /task/complete/{taskId}
     defaults: { _controller: TaskBundle:TaskUpdate:completeTask }
     methods: POST
     

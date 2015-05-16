@@ -21,7 +21,7 @@ class ProjectDeleteController extends BaseController
 
     public function deleteProjectAction(Request $request, $projectId)
     {
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $accessLevel = $authenticatedUser->getAccesslevel();
             $notificationList = $this->getNotificationList($authenticatedUser->getId());

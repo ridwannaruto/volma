@@ -17,7 +17,7 @@ class ProjectCreateController extends BaseProjectController {
 
 
     public function newProjectAction(Request $request) {
-        $loggedUser = $this->authenticateAction();
+        $loggedUser = $this->authenticateUser();
         if ($loggedUser) {
             $accessLevel = $loggedUser->getAccesslevel();
             $notificationList = $this->getNotificationList($loggedUser->getId());

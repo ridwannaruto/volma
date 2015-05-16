@@ -1,4 +1,6 @@
 {%  extends "CoreBundle:Base:base.html.twig" %}
+{% block toolbar %}
+{% endblock %}
 {% block dashboard %}
 {% endblock %}
 {% block content %}
@@ -9,7 +11,7 @@
 
         <div class="row-fluid">
             <div class="well span4 center login-box">
-                <img src="{{asset('bundles/moraspiritstyle/img/msplogo.png')}} " width = "150px"/><br><br><br><br>
+                <img src="{{client_logo}} " width = "150px"/><br><br><br><br>
                 {% if details is defined %}
                 <div class="alert alert-info">
                     {{details}}

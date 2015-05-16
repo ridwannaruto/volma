@@ -16,7 +16,7 @@ class TaskViewController extends BaseTaskController {
 
 
     public function viewAction($taskId, Request $request) {
-    	$authenticatedUser = $this->authenticateAction();
+    	$authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $newComment = New Comment();
             $newComment->setProject(0);

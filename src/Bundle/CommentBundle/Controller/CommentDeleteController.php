@@ -19,7 +19,7 @@ class CommentDeleteController extends BaseCommentController {
 
     public function deleteCommentAction($commentId) {
         $commentToDelete = $this->findEntityById(RepositoryName::$REPOSITORY_COMMENT, $commentId);
-        $authenticatedUser = $this->authenticateAction();
+        $authenticatedUser = $this->authenticateUser();
         if ($commentToDelete->getUser() == $authenticatedUser->getId()) {
             $projectId = $commentToDelete->getProject();
             $taskId = $commentToDelete->getTask();

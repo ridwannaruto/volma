@@ -23,6 +23,8 @@ class RouteName  {
     public static $ROUTE_TASK_DETAIL = 'task_detail';
     public static $ROUTE_TASK_LIST = 'task_index';
 
+    public static $ROUTE_USER_PROFILE = 'user_profile';
+
 
 
 

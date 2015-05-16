@@ -18,7 +18,7 @@ use Moraspirit\EntityBundle\Form\CommentsType;
 class ProjectListController extends BaseController {
 
     public function viewListAction(Request $request) {
-        $loggedUser = $this->authenticateAction();
+        $loggedUser = $this->authenticateUser();
         
         if ($loggedUser) {
             $notificationList = $this->getNotificationList($loggedUser->getId());

@@ -46,12 +46,12 @@ abstract class BaseController extends Controller{
     protected $STATUS_USER_ACTIVE = 2;
 
 
-    private function getEntityManager(){
+    protected function getEntityManager(){
         return $this->getDoctrine()->getManager();
     }
 
 
-    protected function authenticateAction() {
+    protected function authenticateUser() {
         $session = $this->getRequest()->getSession();
         $repository = $this->getEntityManager()->getRepository(RepositoryName::$REPOSITORY_USER);
         $id = $session->get($this->SESSION_KEY_USER_ID);

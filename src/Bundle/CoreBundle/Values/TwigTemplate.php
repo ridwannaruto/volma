@@ -29,6 +29,14 @@ namespace Bundle\CoreBundle\Values;
      //TaskBundle Twig Templates
      public static $TWIG_TASK_NEW = 'TaskBundle:Task:new.html.twig';
      public static $TWIG_TASK_DETAIL = 'TaskBundle:Task:detail.html.twig';
+     public static $TWIG_TASK_LIST = 'TaskBundle:Task:list.html.twig';
+     public static $TWIG_TASK_EDIT ='TaskBundle:Task:edit.html.twig';
+     public static $TWIG_TASK_FEEDBACK = 'TaskBundle:Task:feedback.html.twig';
+
+     //UserBundle Twig Templates
+     public static $TWIG_USER_LIST = 'UserBundle:Members:list.html.twig';
+     public static $TWIG_USER_PROFILE = 'UserBundle:Profile:profile.html.twig';
+     public static $TWIG_USER_PHOTO_UPDATE = 'UserBundle:Profile:photo.html.twig';
 
 
 }
