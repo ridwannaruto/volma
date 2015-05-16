@@ -1,4 +1,4 @@
-{%  extends "MoraspiritStyleBundle:Base:Base.html.twig" %}
+{%  extends "CoreBundle:Base:base.html.twig" %}
 
 
 {% trans_default_domain 'FOSUserBundle' %}
@@ -34,7 +34,7 @@
                                                 <div class="propic" >
                                             <img src="{{user.path}}" width="300" height="300"></h2>
                                                 </div> <br>
-                                                <form action="{{ path('moraspirit_profile_picture') }}" method="post" {{ form_enctype(form) }}>
+                                                <form action="{{ path('profile_picture') }}" method="post" {{ form_enctype(form) }}>
                                                     please upload a high quality photo in the resolution of 400 x 400<br>
                                                     {{ form_widget(form) }}
                                                     <br>

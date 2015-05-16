@@ -4,9 +4,7 @@ namespace Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Moraspirit\EntityBundle\Entity\User;
-use Moraspirit\EntityBundle\Entity\TrackReport;
-use Moraspirit\EntityBundle\Form\UserType;
+
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class PillarController extends Controller {

@@ -1,27 +1,14 @@
 <?php
 
-namespace Moraspirit\UserBundle\Controller;
+namespace Bundle\UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Moraspirit\EntityBundle\Entity\Profile;
-use Moraspirit\EntityBundle\Entity\Photo;
-use Moraspirit\EntityBundle\Form\ProfileType;
 use Symfony\Component\HttpFoundation\Session\Session;
-class ProfileController extends Controller {
+use Bundle\CoreBundle\Controller\BaseController;
 
-    public function authenticateAction() {
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('MoraspiritEntityBundle:User');
-        $id = $session->get('user');
-        $user = $repository->findOneBy(array('id' => $id));
-        if ($user) {
-            return $user;
-        } else {
-            return false;
-        }
-    }
+class BaseUserController extends BaseController {
+
 
     public function pictureAction(Request $request) {
         $authenticatedUser = $this->authenticateAction();

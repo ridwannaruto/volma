@@ -1,16 +1,14 @@
 <?php
 
-namespace Moraspirit\UserBundle\Controller;
+namespace Bundle\UserBundle\Controller;
 
-use Moraspirit\EntityBundle\Entity\Account;
-use Moraspirit\EntityBundle\Form\AccountType;
-use Moraspirit\EntityBundle\Form\PasswordType;
+
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\Exception;
 
-class AccountController extends Controller {
+class UserAccountController extends BaseUserController {
 
     public function indexAction(Request $request) {
         $session = $this->getRequest()->getSession();

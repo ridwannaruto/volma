@@ -1,4 +1,4 @@
-{% extends "MoraspiritStyleBundle:Base:Base.html.twig" %}
+{% extends "CoreBundle:Base:base.html.twig" %}
 
 
 {% block content %}
@@ -36,10 +36,10 @@
         <div class="box-content ">
             <div id="content" class="span12">
                
-                {% if (app.session.get('user')) == user.id%}
+                {% if (app.session.get('user_id')) == user.id%}
                     <div class="pull-right"> 
-                        <a href="{{path('moraspirit_profile_edit')}} "><button  class="btn btn-small btn-account">edit profile</button></a>
-                         <a href="{{path('moraspirit_profile_picture')}} "><button  class="btn btn-small btn-account">change profile picture</button></a>
+                        <a href="{{path('profile_edit')}} "><button  class="btn btn-small btn-account">edit profile</button></a>
+                         <a href="{{path('profile_picture')}} "><button  class="btn btn-small btn-account">change profile picture</button></a>
                         
                          
                     </div>
@@ -188,7 +188,7 @@
 							   {% for project in projects %}
                         <tr>
                             <td>
-                                <a href="{{path('moraspirit_project_details',{'projectID':project.id})}}" >{{project.name}} </a>
+                                <a href="{{path('project_detail',{'projectId':project.id})}}" >{{project.name}} </a>
                             </td>
                             <td class="center">
                                 {{project.objectives}}
@@ -235,7 +235,7 @@
                                                            {% if task.completed == 0 %}
                         <tr>
                             <td>
-                                <a href="{{path('moraspirit_task_details',{'taskID':task.id})}}" >{{task.name}} </a>
+                                <a href="{{path('task_detail',{'taskId':task.id})}}" >{{task.name}} </a>
                             </td>
                             <td class="center">
                                 {{task.duetimestamp}}
@@ -289,7 +289,7 @@
                                                             {% if task.completed == 1 %}
                         <tr>
                             <td>
-                                <a href="{{path('moraspirit_task_details',{'taskID':task.id})}}" >{{task.name}} </a>
+                                <a href="{{path('task_detail',{'taskId':task.id})}}" >{{task.name}} </a>
                             </td>
                             <td class="center">
                                 {{task.duetimestamp}}
@@ -330,7 +330,7 @@
 						 <ul class="dashboard-list">
                     {% for feedback in feedbacks %}
                     <li>
-                        <a href="{{path('moraspirit_profile',{'userID':feedback[0]})}}">
+                        <a href="{{path('profile',{'userId':feedback[0]})}}">
                               {% if feedback[2] != null %}
                             <img class="dashboard-avatar" alt="Not Found" src="{{feedback[2]}}">  
 

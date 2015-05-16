@@ -1,4 +1,4 @@
-{%  extends "MoraspiritStyleBundle:Base:Base.html.twig" %}
+{%  extends "CoreBundle:Base:base.html.twig" %}
 
 
 {% block content %}
@@ -7,7 +7,7 @@
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
-                <h2><i class="icon-list"></i> Spiriters </h2>
+                <h2><i class="icon-list"></i> Members </h2>
                 <div class="box-icon">
 
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
@@ -30,7 +30,7 @@
                         {% for member in members %}
                         <tr>
                             <td width="30%">
-                                <a href="{{path('moraspirit_profile',{'userID':member.id})}}" > {{member.firstname}} {{member.lastname}}</a>
+                                <a href="{{path('user_profile',{'userId':member.id})}}" > {{member.firstname}} {{member.lastname}}</a>
                             </td>
                             <td width="20%" class="center">
                                 {{member.department}}
@@ -45,9 +45,9 @@
                                 {% if member.accesslevel == 'Admin' %}
                                 <span class="label label-important">Administrator</span>   
                                 {% elseif member.accesslevel == 'Head'%}
-                                <span class="label label-warning">Pillar Head</span>  
+                                <span class="label label-warning">Manager</span>
                                 {% elseif member.accesslevel == 'Spiriter'%}
-                                <span class="label label-info">Spiriter</span>  
+                                <span class="label label-info">Volunteer</span>
                             
                                 {% endif %}
 
