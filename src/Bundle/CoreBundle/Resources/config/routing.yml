@@ -27,12 +27,12 @@ news_feed:
     defaults: { _controller: CoreBundle:News:news }
 
 
-user_activate:
-    pattern:  /activate/{userID}
+user_approve:
+    pattern:  /activate/{userId}
     defaults: { _controller: CoreBundle:Authentication:activateUser }
 
 user_reject:
-    pattern:  /reject/{userID}
+    pattern:  /reject/{userId}
     defaults: { _controller: CoreBundle:Authentication:rejectUser }
 
 

@@ -64,13 +64,13 @@ class AuthenticationController extends BaseController
         return $this->render(TwigTemplate::$TWIG_LOGIN);
     }
 
-    public function activateUserAction($userID)
+    public function activateUserAction($userId)
     {
         $authenticatedUser = $this->authenticateUser();
         if ($authenticatedUser) {
             $userRole = $authenticatedUser->getAccesslevel();
             if ($userRole == $this->USER_ROLE_ADMIN || $userRole == $this->USER_ROLE_HEAD) {
-                $inactiveUser = $this->findEntityById(RepositoryName::$REPOSITORY_USER, $userID);
+                $inactiveUser = $this->findEntityById(RepositoryName::$REPOSITORY_USER, $userId);
                 $inactiveUser->setStatus($this->STATUS_USER_ACTIVE);
                 try {
                     $this->saveEntityInstantly($inactiveUser);
@@ -108,9 +108,9 @@ class AuthenticationController extends BaseController
         }
     }
 
-    public function rejectUserAction($userID)
+    public function rejectUserAction($userId)
     {
-        $user = $this->findEntityById(RepositoryName::$REPOSITORY_USER,$userID);
+        $user = $this->findEntityById(RepositoryName::$REPOSITORY_USER,$userId);
         $this->removeEntity($user);
         return $this->render(TwigTemplate::$TWIG_SUCCESS, AuthenticationMessage::$ARRAY_MESSAGE_ACCOUNT_REJECTED);
 

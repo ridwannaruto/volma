@@ -76,9 +76,9 @@ abstract class BaseController extends Controller{
         return $repository->findBy($searchParams);
     }
 
-    protected function findAllEntities($repositoryName,$searchParams){
+    protected function findAllEntities($repositoryName){
         $repository = $this->getEntityManager()->getRepository($repositoryName);
-        return $repository->findAll($searchParams);
+        return $repository->findAll();
     }
 
     protected function saveEntityInstantly($entity){

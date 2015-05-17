@@ -23,13 +23,13 @@
                             <div class ="pull-right">
                                 {% if member.status == 1 %}
                                 <span class="label label-warning">Pending</span>   <br><br>
-                                <button url="{{ path('moraspirit_site_Activate', { 'userID': member.id }) }}" id="{{member.id}}" class="btn btn-mini btn-round btn-complete"><i class="icon-ok"></i></button>	
-                                <button url="{{ path('moraspirit_site_Reject', { 'userID': member.id }) }}" id="{{member.id}}" class="btn btn-mini btn-round btn-delete"><i class="icon-remove"></i></button>                           
+                                <button url="{{ path('user_activate', { 'userId': member.id }) }}" id="{{member.id}}" class="btn btn-mini btn-round btn-complete"><i class="icon-ok"></i></button>
+                                <button url="{{ path('user_reject', { 'userId': member.id }) }}" id="{{member.id}}" class="btn btn-mini btn-round btn-delete"><i class="icon-remove"></i></button>
                                 {% else %}
                                 <span class="label label-success">Activated</span>   <br><br>
                                 {% endif %}
                             </div>
-                            <a href="{{path('moraspirit_profile',{'userID' :member.id})}}">
+                            <a href="{{path('user_profile',{'userId' :member.id})}}">
                                                                                 {% if member.path == null %}
                                 <img class="dashboard-avatar" alt="Not Found" src="/web/bundles/User/Photo/default.jpg">
 										{% else %}
@@ -75,7 +75,7 @@
                         {% for task in taskList %}
                         <tr>
                             <td width="20%">
-                                <a href="{{path('moraspirit_task_details',{'taskID':task.id})}}" > {{task.name}}</a>
+                                <a href="{{path('task_detail',{'taskId':task.id})}}" > {{task.name}}</a>
                             </td>
                             <td width="10%" class="center">
                                 {{task.duetimestamp}}

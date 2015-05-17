@@ -38,8 +38,8 @@
                
                 {% if (app.session.get('user_id')) == user.id%}
                     <div class="pull-right"> 
-                        <a href="{{path('profile_edit')}} "><button  class="btn btn-small btn-account">edit profile</button></a>
-                         <a href="{{path('profile_picture')}} "><button  class="btn btn-small btn-account">change profile picture</button></a>
+                        <a href="{{path('user_profile_edit')}} "><button  class="btn btn-small btn-account">edit user_profile</button></a>
+                         <a href="{{path('user_profile_picture')}} "><button  class="btn btn-small btn-account">change user_profile picture</button></a>
                         
                          
                     </div>
@@ -330,7 +330,7 @@
 						 <ul class="dashboard-list">
                     {% for feedback in feedbacks %}
                     <li>
-                        <a href="{{path('profile',{'userId':feedback[0]})}}">
+                        <a href="{{path('user_profile',{'userId':feedback[0]})}}">
                               {% if feedback[2] != null %}
                             <img class="dashboard-avatar" alt="Not Found" src="{{feedback[2]}}">  
 

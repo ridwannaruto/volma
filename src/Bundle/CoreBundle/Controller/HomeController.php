@@ -11,34 +11,40 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class HomeController extends BaseController {
 
     public function indexAction() {
-        $session = $this->getRequest()->getSession();
-        $loggedUserId = $session->get($this->SESSION_KEY_USER_ID);
-        $loggedUser = $this->findEntityById(RepositoryName::$REPOSITORY_USER,$loggedUserId);
 
-        if ($loggedUser) {
-            $userRole = $loggedUser->getAccesslevel();
-            $notificationList = $this->getNotificationList($loggedUserId);
+        $authenticatedUser = $this->authenticateUser();
+
+        if ($authenticatedUser) {
+            $userRole = $authenticatedUser->getAccesslevel();
+            $notificationList = $this->getNotificationList($authenticatedUser->getId());
 
             if ($userRole == $this->USER_ROLE_ADMIN) {
+                $memberList = $this->findAllEntities(RepositoryName::$REPOSITORY_USER);
                 $taskList = $this->getTaskListForAdmin();
                 return $this->render(TwigTemplate::$TWIG_HOME_ADMIN, array(
                     $this->KEY_TASK_LIST => $taskList,
                     $this->KEY_NOTIFICATION_LIST => $notificationList,
+                    'members' => $memberList
                 ));
             }
+
             if ($userRole == $this->USER_ROLE_HEAD) {
-                $taskList = $this->getTaskListForHead($loggedUser->getPillar());
+                $searchParams = array('pillar'=>$authenticatedUser->getPillar());
+                $memberList = $this->findUniqueEntities(RepositoryName::$REPOSITORY_USER,$searchParams);
+                $taskList = $this->getTaskListForHead($authenticatedUser->getPillar());
                 return $this->render(TwigTemplate::$TWIG_HOME_HEAD, array(
                     $this->KEY_TASK_LIST => $taskList,
                     $this->KEY_NOTIFICATION_LIST => $notificationList,
+                    'members' => $memberList
                 ));
             }
             if ($userRole == $this->USER_ROLE_VOLUNTEER) {
-                $taskList = $this->getTaskListForVolunteer($loggedUserId);
+                $taskList = $this->getTaskListForVolunteer($authenticatedUser->getId());
                 return $this->render(
                     TwigTemplate::$TWIG_HOME_VOLUNTEER, array(
                     $this->KEY_TASK_LIST => $taskList,
-                    $this->KEY_NOTIFICATION_LIST => $notificationList,
+                    $this->KEY_NOTIFICATION_LIST => $notificationList
+
                 ));
             }
         }
