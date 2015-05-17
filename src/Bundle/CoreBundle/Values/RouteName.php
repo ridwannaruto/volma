@@ -24,6 +24,7 @@ class RouteName  {
     public static $ROUTE_TASK_LIST = 'task_index';
 
     public static $ROUTE_USER_PROFILE = 'user_profile';
+    public static $ROUTE_USER_RESET_PASSWORD = 'reset_password';
 
 
 

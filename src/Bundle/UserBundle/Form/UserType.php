@@ -134,7 +134,7 @@ class UserType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Moraspirit\EntityBundle\Entity\User'
+            'data_class' => 'Bundle\UserBundle\Entity\User'
         ));
     }
 
@@ -142,7 +142,7 @@ class UserType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'moraspirit_entitybundle_user';
+        return 'entitybundle_user';
     }
 
 }

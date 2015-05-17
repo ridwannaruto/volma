@@ -1,6 +1,6 @@
 <?php
 
-namespace Moraspirit\EntityBundle\Form;
+namespace Bundle\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,11 +14,17 @@ class PasswordType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder       
-                ->add('newpassword','password')
-                ->add('confirmpassword','password')
-                ->add('submit', 'submit', array(
-                    'label' => 'Change Password'
+                ->add('newpassword','password',array(
+                    'attr' => array(
+                        'placeholder' => 'type your new password'
+                    )
                 ))
+                ->add('confirmpassword','password',array(
+                    'attr' => array(
+                        'placeholder' => 'confirm your new password'
+                    )
+                ))
+
         ;
     }
 
@@ -27,7 +33,7 @@ class PasswordType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Moraspirit\EntityBundle\Entity\Account'
+            'data_class' => 'Bundle\UserBundle\Entity\Account'
         ));
     }
 
@@ -35,7 +41,7 @@ class PasswordType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'moraspirit_account';
+        return 'userbundle_account';
     }
 
 }

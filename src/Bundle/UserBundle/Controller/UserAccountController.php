@@ -3,169 +3,167 @@
 namespace Bundle\UserBundle\Controller;
 
 
+
+use Bundle\CoreBundle\Values\Messages\GenericMessage;
+use Bundle\CoreBundle\Values\RepositoryName;
+use Bundle\CoreBundle\Values\RouteName;
+use Bundle\CoreBundle\Values\TwigTemplate;
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\Exception;
+use Bundle\UserBundle\Entity\Account;
+use Bundle\UserBundle\Form\AccountType;
+use Bundle\UserBundle\Messages\AccountMessage;
+use Bundle\UserBundle\Form\PasswordType;
 
-class UserAccountController extends BaseUserController {
+class UserAccountController extends BaseUserController
+{
 
-    public function indexAction(Request $request) {
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('MoraspiritEntityBundle:User');
-        $id = $session->get('user');
-        $user = $repository->findOneBy(array('id' => $id));
-        
-        $NotificationRepository = $em->getRepository('MoraspiritEntityBundle:Notification');
-            $NotificationsQuery = $NotificationRepository->createQueryBuilder('p')
-                    ->where('p.userid = :id AND p.seen = 0')
-                    ->setParameter('id', $user->getId())
-                    ->setMaxResults(10)
-                    ->orderBy('p.id', 'DESC')
-                    ->getQuery();
-	$Notifications = $NotificationsQuery->getResult();
-
-        if ($user) {
-            $account = new Account();
-            $form = $this->createForm(new AccountType(), $account, array(
-                'action' => $this->generateUrl('moraspirit_account'),
+    public function changePasswordAction(Request $request)
+    {
+        $authenticatedUser = $this->authenticateUser();
+        if ($authenticatedUser) {
+            $notificationList = $this->getNotificationList($authenticatedUser->getId());
+            $userAccount = new Account();
+            $passwordChangeForm = $this->createForm(
+                new AccountType(), $userAccount, array(
                 'attr' => array(
                     'class' => 'form-horizontal center'
                 )
-            ));
-            $form->handleRequest($request);
+            )
+            );
+            $passwordChangeForm->handleRequest($request);
 
-            if ($form->isValid()) {
-		$password = hash('md5',$account->getCurrentpassword());
-                $account = $form->getData();
-                if ($password == $user->getPassword()) {
-                    if ($account->getNewpassword() == $account->getConfirmpassword()) {
-                        $user->setPassword(hash('md5',$account->getNewpassword()));
+            if ($passwordChangeForm->isValid()) {
+                $currentPassword = hash('md5', $userAccount->getCurrentpassword());
+                $userAccount = $passwordChangeForm->getData();
+                if ($currentPassword == $authenticatedUser->getPassword()) {
+                    if ($userAccount->getNewpassword() == $userAccount->getConfirmpassword()) {
+                        $authenticatedUser->setPassword(hash('md5', $userAccount->getNewpassword()));
                         try {
-                            $em->persist($user);
-                            $em->flush();
+                            $this->saveEntityInstantly($authenticatedUser);
                         } catch (Exception $ex) {
-                            return $this->render('MoraspiritUserBundle:Account:Settings.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'E',
-                                    'message'   => 'opz! Something went wrong!',
-                                    'Notifications' => $Notifications
-                        ));
+                            return $this->render(
+                                TwigTemplate::$TWIG_USER_CHANGE_PASSWORD, array(
+                                'form' => $passwordChangeForm->createView(),
+                                'type' => 'E',
+                                'message' => GenericMessage::$MESSAGE_ERROR_GENERAL,
+                                $this->KEY_NOTIFICATION_LIST => $notificationList
+                            )
+                            );
                         }
 
-                        return $this->render('MoraspiritUserBundle:Account:Settings.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'S',
-                                    'message'   => 'successfully changed your password',
-                                    'Notifications' => $Notifications
-                        ));
-                    } else {
-                        return $this->render('MoraspiritUserBundle:Account:Settings.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'E',
-                                    'message'   => 'new password did not match with its confirmation',
-                                    'Notifications' => $Notifications
-                        ));
+                        return $this->render(
+                            TwigTemplate::$TWIG_USER_CHANGE_PASSWORD, array(
+                            'form' => $passwordChangeForm->createView(),
+                            'type' => 'S',
+                            'message' => AccountMessage::$MESSAGE_PASSWORD_CHANGE_SUCCESS,
+                            $this->KEY_NOTIFICATION_LIST => $notificationList
+                        )
+                        );
                     }
-                } else {
-                    return $this->render('MoraspiritUserBundle:Account:Settings.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'E',
-                                    'message'   => 'please enter the correct password',
-                                    'Notifications' => $Notifications
-                        ));
+                    return $this->render(
+                        TwigTemplate::$TWIG_USER_CHANGE_PASSWORD, array(
+                        'form' => $passwordChangeForm->createView(),
+                        'type' => 'E',
+                        'message' => AccountMessage::$MESSAGE_PASSWORD_NOT_MATCH,
+                        $this->KEY_NOTIFICATION_LIST => $notificationList
+                    )
+                    );
                 }
-            }
-            return $this->render('MoraspiritUserBundle:Account:Settings.html.twig', array(
-                        'form' => $form->createView(),
-                        'Notifications' => $Notifications
-            ));
-        }
-        return $this->redirect($this->generateUrl('moraspirit_site_login'));
-    }
-    
-    public function forgotPasswordAction(Request $request){
-        if ($request->getMethod() == 'POST') {
-            $useremail = $request->get('email');
-            $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('MoraspiritEntityBundle:User')->findOneBy(array('email'=>$useremail));
-            if($user){
-                $link = "http://volma.moraspirit.com" .$this->generateUrl('moraspirit_reset_password', array('userId'=>$user->getId()));
-                $message = \Swift_Message::newInstance()
-                ->setSubject('Bundle Password Resetting')
-                ->setFrom('moraspirit@gmail.com')
-                ->setTo($useremail)
-                ->setBcc('rshariffdeen@gmail.com')
-                ->setBody(
-                $this->renderView(
-                        'MoraspiritUserBundle:Account:resetmail.html.twig', array('name'=>$user->getFirstname(),'link'=>$link)
-                ), 'text/html'
+                return $this->render(
+                    TwigTemplate::$TWIG_USER_CHANGE_PASSWORD, array(
+                    'form' => $passwordChangeForm->createView(),
+                    'type' => 'E',
+                    'message' => AccountMessage::$MESSAGE_INCORRECT_PASSWORD,
+                    $this->KEY_NOTIFICATION_LIST => $notificationList
                 )
-        ;
-        return $this->render('MoraspiritUserBundle:Account:ForgotPassword.html.twig', array(
-                                    'type'  => 'S',
-                                    'message'   => 'Password reset link has been sent to your mail'
-                        ));
-        $this->get('mailer')->send($message);
-            }else{
-                return $this->render('MoraspiritUserBundle:Account:ForgotPassword.html.twig', array(
-                                    'type'  => 'E',
-                                    'message'   => 'please enter your correct email address'
-                        ));
+                );
             }
+            return $this->render(
+                TwigTemplate::$TWIG_USER_CHANGE_PASSWORD, array(
+                'form' => $passwordChangeForm->createView(),
+                $this->KEY_NOTIFICATION_LIST => $notificationList
+            )
+            );
         }
-        return $this->render('MoraspiritUserBundle:Account:ForgotPassword.html.twig');
+        return $this->redirect($this->generateUrl(RouteName::$ROUTE_LOGIN));
     }
-    
-    public function resetPasswordAction(Request $request, $userId){
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('MoraspiritEntityBundle:User')->findOneBy(array('id'=>$userId));
-        $account = new Account();
-            $form = $this->createForm(new PasswordType(), $account, array(
-                'action' => $this->generateUrl('moraspirit_reset_password',array('userId'=>$userId)),
-                'attr' => array(
-                    'class' => 'form-horizontal center'
-                )
-            ));
-        $NotificationRepository = $em->getRepository('MoraspiritEntityBundle:Notification');
-            $NotificationsQuery = $NotificationRepository->createQueryBuilder('p')
-                    ->where('p.userid = :id AND p.seen = 0')
-                    ->setParameter('id', $user->getId())
-                    ->setMaxResults(10)
-                    ->orderBy('p.id', 'DESC')
-                    ->getQuery();
-	$Notifications = $NotificationsQuery->getResult();
-        $form->handleRequest($request);
-        if($form->isValid()){
-            $account = $form->getData();
-            if ($account->getNewpassword() == $account->getConfirmpassword()) {
-                        $user->setPassword(hash('md5',$account->getNewpassword()));
-                        try {
-                            $em->persist($user);
-                            $em->flush();
-                        } catch (Exception $ex) {
-                            return $this->render('MoraspiritUserBundle:Account:ResetPassword.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'E',
-                                    'message'   => 'opz! Something went wrong!'
-                        ));
-                        }
 
-                        return $this->render('MoraspiritSiteBundle:Authentication:login.html.twig', array(
-                                    'type'  => 'S',
-                                    'message'   => 'successfully changed your password. Login with your new password'
-                        ));
-                    } else {
-                        return $this->render('MoraspiritUserBundle:Account:ResetPassword.html.twig', array(
-                                    'form' => $form->createView(),
-                                    'type'  => 'E',
-                                    'message'   => 'new password did not match with its confirmation'
-                        ));
-                    }
+    public function forgotPasswordAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            $userEmail = $request->get('email');
+            $searchParams = array('email' => $userEmail);
+            $user = $this->findOneEntity(RepositoryName::$REPOSITORY_USER, $searchParams);
+            if ($user) {
+                $rootURL = $this->container->getParameter('app_root');
+                $link = $rootURL . $this->generateUrl(
+                        RouteName::$ROUTE_USER_RESET_PASSWORD, array('userId' => $user->getId())
+                    );
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Volma Password Resetting')
+                    ->setFrom($this->container->getParameter('email_send'))
+                    ->setTo($userEmail)
+                    ->setBcc($this->container->getParameter('email_bcc'))
+                    ->setBody(
+                        $this->renderView(
+                            TwigTemplate::$EMAIL_RESET_PASSWORD, array('name' => $user->getFirstname(), 'link' => $link)
+                        ), 'text/html'
+                    );
+                return $this->render(
+                    TwigTemplate::$TWIG_USER_FORGOT_PASSWORD, AccountMessage::$ARRAY_MESSAGE_RESET_LINK_SENT
+                );
+                $this->get('mailer')->send($message);
+            }
+            return $this->render(
+                TwigTemplate::$TWIG_USER_FORGOT_PASSWORD, AccountMessage::$ARRAY_MESSAGE_INCORRECT_EMAIL
+            );
+
         }
-        return $this->render('MoraspiritUserBundle:Account:ResetPassword.html.twig',array(
-        'userId'=>$userId,
-        'form' => $form->createView()));
+        return $this->render(TwigTemplate::$TWIG_USER_FORGOT_PASSWORD);
     }
+
+    public function resetPasswordAction(Request $request, $userId)
+    {
+        $user = $this->findEntityById(RepositoryName::$REPOSITORY_USER,$userId);
+        $userAccount = new Account();
+        $passwordResetForm = $this->createForm(
+            new PasswordType(), $userAccount, array(
+            'action' => $this->generateUrl(RouteName::$ROUTE_USER_RESET_PASSWORD, array('userId' => $userId)),
+            'attr' => array(
+                'class' => 'form-horizontal center'
+            )));
+
+        $passwordResetForm->handleRequest($request);
+        if ($passwordResetForm->isValid()) {
+            $userAccount = $passwordResetForm->getData();
+            if ($userAccount->getNewpassword() == $userAccount->getConfirmpassword()) {
+                $user->setPassword(hash('md5', $userAccount->getNewpassword()));
+                try {
+                    $this->saveEntityInstantly($user);
+
+                } catch (Exception $ex) {
+                    return $this->render(TwigTemplate::$TWIG_USER_RESET_PASSWORD, array(
+                        'form' => $passwordResetForm->createView(),
+                        'type' => 'E',
+                        'message' => GenericMessage::$MESSAGE_ERROR_GENERAL
+                    ));
+                }
+
+                return $this->render(TwigTemplate::$TWIG_LOGIN, AccountMessage::$ARRAY_MESSAGE_PASSWORD_RESET_SUCCESS );
+            }
+            return $this->render(TwigTemplate::$TWIG_USER_RESET_PASSWORD, array(
+                'form' => $passwordResetForm->createView(),
+                'type' => 'E',
+                'message' => AccountMessage::$MESSAGE_PASSWORD_NOT_MATCH
+            ));
+        }
+        return $this->render(TwigTemplate::$TWIG_USER_RESET_PASSWORD, array(
+            'userId' => $userId,
+            'form' => $passwordResetForm->createView()
+        ));
+    }
+
 }

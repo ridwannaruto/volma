@@ -2,13 +2,13 @@ user_profile:
     pattern:  /profile/{userId}
     defaults: { _controller: UserBundle:UserProfile:viewProfile }
     
-account:
-    pattern:  /account
-    defaults: { _controller: UserBundle:UserAccount:updateAccount }
+change_password:
+    pattern:  /changepassword
+    defaults: { _controller: UserBundle:UserAccount:changePassword }
 
 forgot_password:
     pattern:  /forgotpassword
-    defaults: { _controller: UserBundle:UserAccount:forgotPassword }
+    defaults: { _controller: UserBundle:UserAccount:resetPassword }
 
 reset_password:
     pattern:  /{userId}/resetpassword

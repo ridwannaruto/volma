@@ -1,6 +1,6 @@
 <?php
 
-namespace Moraspirit\EntityBundle\Form;
+namespace Bundle\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -95,7 +95,7 @@ class ProfileType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Moraspirit\EntityBundle\Entity\Profile'
+            'data_class' => 'Bundle\UserBundle\Entity\Profile'
         ));
     }
 
@@ -103,7 +103,7 @@ class ProfileType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'moraspirit_entitybundle_profile';
+        return 'entitybundle_profile';
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Moraspirit\EntityBundle\Form;
+namespace Bundle\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +28,7 @@ class AccountType extends AbstractType {
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Moraspirit\EntityBundle\Entity\Account'
+            'data_class' => 'Bundle\UserBundle\Entity\Account'
         ));
     }
 
