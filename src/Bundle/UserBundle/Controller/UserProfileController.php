@@ -2,13 +2,15 @@
 
 namespace Bundle\UserBundle\Controller;
 
+use Bundle\CoreBundle\Values\Messages\GenericMessage;
 use Bundle\CoreBundle\Values\RepositoryName;
 use Bundle\CoreBundle\Values\RouteName;
 use Bundle\CoreBundle\Values\TwigTemplate;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Bundle\UserBundle\Entity\Photo;
-
+use Bundle\UserBundle\Entity\Profile;
+use Bundle\UserBundle\Form\ProfileType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserProfileController extends BaseUserController
@@ -111,7 +113,7 @@ class UserProfileController extends BaseUserController
             $profile = $this->getProfile();
             $form = $this->createForm(
                 new ProfileType(), $profile, array(
-                'action' => $this->generateUrl('moraspirit_profile_edit'),
+                'action' => $this->generateUrl('profile_edit'),
                 'method' => 'PUT',
                 'attr' => array(
                     'class' => 'form-horizontal center'
@@ -124,13 +126,12 @@ class UserProfileController extends BaseUserController
                 $user = $this->setProfile($profile);
 
                 try {
-                    $em->persist($user);
-                    $em->flush();
+                    $this->saveEntityInstantly($user);
                 } catch (\Exception $e) {
                     // echo $e;
                     return $this->render(
-                        'MoraspiritUserBundle:Profile:edit.html.twig', array(
-                        'message' => ' Opz! something went wrong!',
+                       TwigTemplate::$TWIG_USER_PROFILE_EDIT, array(
+                        'message' => GenericMessage::$MESSAGE_ERROR_GENERAL,
                         'type' => 'E',
                         'form' => $form->createView(),
                         $this->KEY_NOTIFICATION_LIST => $notificationList
@@ -139,7 +140,7 @@ class UserProfileController extends BaseUserController
                 }
                 return $this->redirect(
                     $this->generateUrl(
-                        'moraspirit_profile', array(
+                        RouteName::$ROUTE_USER_PROFILE, array(
                         'message' => ' Successfully updated your profile',
                         'type' => 'S',
                         'userId' => $user->getId()
@@ -148,7 +149,7 @@ class UserProfileController extends BaseUserController
                 );
             }
             return $this->render(
-                'MoraspiritUserBundle:Profile:edit.html.twig', array(
+                TwigTemplate::$TWIG_USER_PROFILE_EDIT, array(
                 'form' => $form->createView(),
                 'message' => $request->get('message'),
                 'type' => $request->get('type'),

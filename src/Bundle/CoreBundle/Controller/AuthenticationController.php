@@ -140,17 +140,17 @@ class AuthenticationController extends BaseController
     public function registerUserAction(Request $request)
     {
         $newUser = new User();
-        $form = $this->createForm(
+        $registrationForm = $this->createForm(
             new UserType(), $newUser, array(
             'attr' => array(
                 'class' => 'form-horizontal center'
             )
         )
         );
-        $form->handleRequest($request);
+        $registrationForm->handleRequest($request);
 
-        if ($form->isValid()) {
-            $newUser = $form->getData();
+        if ($registrationForm->isValid()) {
+            $newUser = $registrationForm->getData();
             $newUser->setAccesslevel($this->USER_ROLE_VOLUNTEER);
             $newUser->setStatus($this->STATUS_USER_REGISTERED);
             $careerReport = new TrackReport();
@@ -174,14 +174,14 @@ class AuthenticationController extends BaseController
                     'type' => 'E',
                     'message' => GenericMessage::$MESSAGE_ERROR_GENERAL,
                     'details' => 'Duplicate Values',
-                    'form' => $form->createView()
+                    'form_registration' => $registrationForm->createView()
                 )
                 );
             }
             return $this->render(TwigTemplate::$TWIG_LOGIN,AuthenticationMessage::$ARRAY_MESSAGE_ACCOUNT_REGISTRATION_SUCCESS );
         }
 
-        return $this->render(TwigTemplate::$TWIG_REGISTER, array('form_registration' => $form->createView()));
+        return $this->render(TwigTemplate::$TWIG_REGISTER, array('form_registration' => $registrationForm->createView()));
     }
 
     private function sendConfirmationAction($userEmail, $userFirstName)
