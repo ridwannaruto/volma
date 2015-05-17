@@ -145,16 +145,11 @@
                                             {% if notificationList != null %}
                         <div class="box-content alerts">
                             {% for notification in notificationList %}
-                                                {% if notification.task == 0 %}
-                                                    <a href="{{ path('project_detail_notification',{'projectId':notification.project,'notificationId':notification.id}) }}"><li>
 
-                                                {% else %}
-                                                    <a href="{{ path('task_detail_notification',{'taskId':notification.task,'notificationId':notification.id}) }}"> <li>
-
-                                                {% endif %}
 
 
                                                 {% if notification.type == 4 %}
+
                                                     <div class="alert alert-error">
                                                         <button url="{{ path('notification_see', { 'notificationId': notification.id }) }}"
                                                                 id="{{ notification.id }}" type="button"
@@ -165,14 +160,22 @@
                                                         </div>
 
                                                         <strong><h5>{{ notification.heading }}</h5></strong>
+                                                          {% if notification.task == 0 %}
+                                                <a href="{{ path('project_detail_notification',{'projectId':notification.project,'notificationId':notification.id}) }}"><li>
 
+                                            {% else %}
+                                                <a href="{{ path('task_detail_notification',{'taskId':notification.task,'notificationId':notification.id}) }}"> <li>
+
+                                            {% endif %}
                                                         {{ notification.details }}
-                                                        <br>
+                                                        </a><br>
                                                     </div>
+                                                    </a>
 
                                                 {% endif %}
 
                                                 {% if notification.type == 3 %}
+
                                                     <div class="alert alert-success">
                                                         <button url="{{ path('notification_see', { 'notificationId': notification.id }) }}"
                                                                 id="{{ notification.id }}" type="button"
@@ -182,15 +185,22 @@
                                                             {{ notification.timestamp|date('Y-m-d H:i:s') }}
                                                         </div>
                                                         <strong><h5>{{ notification.heading }}</h5></strong>
+                                                        {% if notification.task == 0 %}
+                                                        <a href="{{ path('project_detail_notification',{'projectId':notification.project,'notificationId':notification.id}) }}"><li>
 
-                                                        {{ notification.details }}<br>
+                                                                {% else %}
+                                                                <a href="{{ path('task_detail_notification',{'taskId':notification.task,'notificationId':notification.id}) }}"> <li>
+
+                                                                        {% endif %}
+                                                        {{ notification.details }}</a><br>
 
 
                                                     </div>
-
+                                                    </a>
                                                 {% endif %}
 
                                                 {% if notification.type == 2 %}
+
                                                     <div class="alert alert-heading">
                                                         <button url="{{ path('notification_see', { 'notificationId': notification.id }) }}"
                                                                 id="{{ notification.id }}" type="button"
@@ -200,8 +210,14 @@
                                                             {{ notification.timestamp|date('Y-m-d H:i:s') }}
                                                         </div>
                                                         <strong><h5>{{ notification.heading }}</h5></strong>
+                                                        {% if notification.task == 0 %}
+                                                        <a href="{{ path('project_detail_notification',{'projectId':notification.project,'notificationId':notification.id}) }}"><li>
 
-                                                        {{ notification.details }}<br>
+                                                                {% else %}
+                                                                <a href="{{ path('task_detail_notification',{'taskId':notification.task,'notificationId':notification.id}) }}"> <li>
+
+                                                                        {% endif %}
+                                                        {{ notification.details }}</a><br>
                                                     </div>
 
                                                 {% endif %}
@@ -215,26 +231,34 @@
                                                             {{ notification.timestamp|date('Y-m-d H:i:s') }}
                                                         </div>
                                                         <strong><h5>{{ notification.heading }}</h5></strong>
+                                                        {% if notification.task == 0 %}
+                                                        <a href="{{ path('project_detail_notification',{'projectId':notification.project,'notificationId':notification.id}) }}"><li>
 
-                                                        {{ notification.details }}<br>
+                                                                {% else %}
+                                                                <a href="{{ path('task_detail_notification',{'taskId':notification.task,'notificationId':notification.id}) }}"> <li>
+
+                                                                        {% endif %}
+                                                        {{ notification.details }}
+                                                                        </a>
+                                                                <br>
 
                                                     </div>
 
                                                 {% endif %}
-                                                </li></a>
+                                                </li>
                                             {% endfor %}
                         </div>	
                         {% else %}
-                        <li align ="center">
+                        <h5 align ="center">
                             no new notifications
-                        </li></a>
+                        </h5></a>
                         {% endif %}
 
 
                                         </div>
                                         <!--/span-->
                                         <li class="divider"></li>
-                                        <li align="center"><a href="{{ path('allnotification') }}">see all</a></li>
+                                        <p align="center"><a href="{{ path('allnotification') }}">see all</a></p>
 
                                     </ul>
                                 </div>

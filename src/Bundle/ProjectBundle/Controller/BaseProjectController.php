@@ -5,6 +5,7 @@ namespace Bundle\ProjectBundle\Controller;
 use Bundle\CoreBundle\Controller\BaseController;
 use Bundle\CoreBundle\Values\RepositoryName;
 use Bundle\CoreBundle\Values\GenericMessage;
+use Bundle\CoreBundle\Values\RouteName;
 use Bundle\NotificationBundle\Entity\Notification;
 
 abstract class BaseProjectController extends BaseController{
@@ -27,16 +28,6 @@ abstract class BaseProjectController extends BaseController{
         $em->flush();
     }
 
-    protected function notificationAction($projectID,$notificationID){
-    	$loggedUser = $this->authenticateAction();
-    	if($loggedUser){
-        	$notification = $this->findEntityById(RepositoryName::$REPOSITORY_NOTIFICATION,$notificationID);
-        	$notification->setSeen(1);
-        	$this->saveEntityInstantly($notification);
-        
-        	return $this->redirect($this->generateUrl('project_details',array('projectID'=>$projectID)));
-    	}
-    }
 
     protected function getUser($userId) {
         return $this->findEntityById(RepositoryName::$REPOSITORY_USER,$userId);

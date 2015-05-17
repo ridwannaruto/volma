@@ -5,11 +5,7 @@ task_index:
 task_detail:
     pattern:  /task/details/{taskId}
     defaults: { _controller: TaskBundle:TaskView:view }
-    
-task_details_notification:
-    pattern:  /task/details/{taskId}/{notificationId}
-    defaults: { _controller: TaskBundle:Task:notification }
-    methods: POST
+
     
 task_new:
     pattern:  /task/new

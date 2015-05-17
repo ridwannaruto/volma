@@ -47,4 +47,7 @@ namespace Bundle\CoreBundle\Values;
      //Email TWig Templates
      public static $EMAIL_RESET_PASSWORD = 'NotificationBundle:Email:resetPassword.html.twig';
 
+     //Notification Bundle Twig Templates
+     public static $TWIG_NOTIFICATION_ALL = 'NotificationBundle:Notification:showAll.html.twig';
+
 }

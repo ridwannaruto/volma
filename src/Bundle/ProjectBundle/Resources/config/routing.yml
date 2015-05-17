@@ -25,7 +25,5 @@ project_complete:
     defaults: { _controller: ProjectBundle:ProjectUpdate:complete }
     methods: POST
     
-project_detail_notification:
-    pattern:  /projectdetails/{projectId}/{notificationId}
-    defaults: { _controller: ProjectBundle:Project:notification }
+
     

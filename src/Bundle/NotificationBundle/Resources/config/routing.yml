@@ -1,11 +1,20 @@
 checkRegisterEmail:
     pattern:  /check
-    defaults: { _controller: MoraspiritNotificationBundle:Notification:index }  
+    defaults: { _controller: NotificationBundle:Notification:index }
     
 notification_see:
     pattern:  /home/{notificationId}
-    defaults: { _controller: MoraspiritNotificationBundle:Notification:seen }
+    defaults: { _controller: NotificationBundle:Notification:seen }
     
 allnotification:
     pattern:  /allnotifications
-    defaults: { _controller: MoraspiritNotificationBundle:Notification:showAll }    
+    defaults: { _controller: NotificationBundle:Notification:showAll }
+
+project_detail_notification:
+    pattern:  /projectdetails/{projectId}/{notificationId}
+    defaults: { _controller: NotificationBundle:Notification:projectNotification }
+
+task_detail_notification:
+    pattern:  /task/details/{taskId}/{notificationId}
+    defaults: { _controller: NotificationBundle:Notification:taskNotification }
+    methods: POST

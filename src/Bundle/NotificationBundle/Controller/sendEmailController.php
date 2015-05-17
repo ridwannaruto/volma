@@ -1,6 +1,6 @@
 <?php
 
-namespace Moraspirit\NotificationBundle\Controller;
+namespace Bundle\NotificationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Moraspirit\EntityBundle\Entity\Confirmation;

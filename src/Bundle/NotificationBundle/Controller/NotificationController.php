@@ -1,11 +1,14 @@
 <?php
 
-namespace Moraspirit\NotificationBundle\Controller;
+namespace Bundle\NotificationBundle\Controller;
 
+use Bundle\CoreBundle\Values\TwigTemplate;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Moraspirit\EntityBundle\Entity\Notification;
+use Bundle\CoreBundle\Controller\BaseController;
+use Bundle\CoreBundle\Values\RepositoryName;
+use Bundle\CoreBundle\Values\RouteName;
 
-class NotificationController extends Controller
+class NotificationController extends BaseController
 {
     public function seenAction($notificationID)
     {
@@ -20,42 +23,26 @@ class NotificationController extends Controller
     }
     
     public function showAllAction(){
-    	$session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('MoraspiritEntityBundle:User');
-        $id = $session->get('user');
-        $user = $repository->findOneBy(array('id' => $id));
-        $NotificationRepository = $em->getRepository('MoraspiritEntityBundle:Notification');
-        $NotificationsQuery = $NotificationRepository->createQueryBuilder('p')
-                    ->where('p.userid = :id AND p.seen = 0')
-                    ->setParameter('id', $user->getId())
-                    ->setMaxResults(10)
-                    ->orderBy('p.id', 'DESC')
-                    ->getQuery();
-            $Notifications = $NotificationsQuery->getResult();
-       $AllNotificationsQuery = $NotificationRepository->createQueryBuilder('p')
-                    ->where('p.userid = :id')
-                    ->setParameter('id', $user->getId())
-                    ->setMaxResults(10)
-                    ->orderBy('p.id', 'DESC')
-                    ->getQuery();
-            $AllNotifications = $AllNotificationsQuery->getResult();
-    	return $this->render('MoraspiritNotificationBundle:Task:allnotification.html.twig',array(
-    		'Notifications' => $Notifications,
-    		'AllNotifications' => $AllNotifications
+    	$authenticatedUser = $this->authenticateUser();
+        $notificationList = $this->getNotificationList($authenticatedUser->getId());
+        $searchParams = array('userid'=> $authenticatedUser->getId());
+        $notificationArchive = $this->findUniqueEntities(RepositoryName::$REPOSITORY_NOTIFICATION,$searchParams);
+
+    	return $this->render(TwigTemplate::$TWIG_NOTIFICATION_ALL,array(
+    		 $this->KEY_NOTIFICATION_LIST => $notificationList,
+    		'AllNotifications' => $notificationArchive
     	));
     }
-    
-    public function indexAction()
-    {
-        $message = \Swift_Message::newInstance()
-                ->setSubject('Bundle Registration')
-                ->setFrom('Moraspirit@gmail.com')
-                ->setTo('rshariffdeen@gmail.com')
-                ->setBody("TESTING" , 'text/html'
-                )
-        ;
-        $this->get('mailer')->send($message);
-        return true;
+
+    public function projectNotificationAction($projectId,$notificationId){
+        $loggedUser = $this->authenticateUser();
+        if($loggedUser){
+            $notification = $this->findEntityById(RepositoryName::$REPOSITORY_NOTIFICATION,$notificationId);
+            $notification->setSeen(1);
+            $this->saveEntityInstantly($notification);
+            return $this->redirect($this->generateUrl(RouteName::$ROUTE_PROJECT_DETAIL,array('projectId'=>$projectId)));
+        }
     }
+
+
 }
