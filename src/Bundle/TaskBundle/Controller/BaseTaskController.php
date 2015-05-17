@@ -44,19 +44,7 @@ class BaseTaskController extends BaseController {
         $this->get('mailer')->send($message);
     }
 
-    protected function notificationAction($taskID,$notificationID){
-    	$user = $this->authenticateAction();
-    	if($user){
-    		$em = $this->getDoctrine()->getManager();
-        	$Repository = $em->getRepository('MoraspiritEntityBundle:Notification');
-        	$notification = $Repository->find($notificationID);
-        	$notification->setSeen(1);
-        	$em->persist($notification);
-        	$em->flush();
-        
-        	return $this->redirect($this->generateUrl('moraspirit_task_details',array('taskID'=>$taskID)));
-    	}
-    }
+
 
 
     protected function getCommentList($taskID) {

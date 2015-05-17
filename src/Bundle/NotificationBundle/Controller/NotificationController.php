@@ -35,8 +35,8 @@ class NotificationController extends BaseController
     }
 
     public function projectNotificationAction($projectId,$notificationId){
-        $loggedUser = $this->authenticateUser();
-        if($loggedUser){
+        $authenticatedUser = $this->authenticateUser();
+        if($authenticatedUser){
             $notification = $this->findEntityById(RepositoryName::$REPOSITORY_NOTIFICATION,$notificationId);
             $notification->setSeen(1);
             $this->saveEntityInstantly($notification);
@@ -44,5 +44,14 @@ class NotificationController extends BaseController
         }
     }
 
+    public function taskNotificationAction($taskId,$notificationId){
+        $authenticatedUser = $this->authenticateUser();
+        if($authenticatedUser){
+            $notification = $this->findEntityById(RepositoryName::$REPOSITORY_NOTIFICATION,$notificationId);
+            $notification->setSeen(1);
+            $this->saveEntityInstantly($notification);
+            return $this->redirect($this->generateUrl(RouteName::$ROUTE_TASK_DETAIL,array('taskId'=>$taskId)));
+        }
+    }
 
 }

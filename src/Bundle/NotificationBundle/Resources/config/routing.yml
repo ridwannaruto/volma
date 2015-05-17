@@ -15,6 +15,5 @@ project_detail_notification:
     defaults: { _controller: NotificationBundle:Notification:projectNotification }
 
 task_detail_notification:
-    pattern:  /task/details/{taskId}/{notificationId}
+    pattern:  /taskdetail/{taskId}/{notificationId}
     defaults: { _controller: NotificationBundle:Notification:taskNotification }
-    methods: POST
