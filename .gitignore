@@ -42,3 +42,9 @@
 # IntelliJIDEA
 .idea/*
 .idea
+
+# Log Files
+*.log
+
+# Node Modules
+microservice/server/node/node_modules/
