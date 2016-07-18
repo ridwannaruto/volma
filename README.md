@@ -1,3 +1,3 @@
-Volunteer Management System
+Symfony 2 Incarnation
 ==========================================
-Volma (Volunteer Management System) is the new implementation to provide the flexibility and usability in allocating resource personnel to individual tasks and rate their work with two way feedback system. 
+This is a incarnation of Volma in PHP Symfony 2
