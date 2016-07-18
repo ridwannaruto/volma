@@ -1,0 +1,13 @@
+{
+  "name": "volma",
+  "version": "0.0.1",
+  "description": "Volma NodeJS-React incarnation in Docker",
+  "author": "Ridwan Shariffdeen <ridwan.11@cse.mrt.ac.lk>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
