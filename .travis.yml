@@ -1,10 +1,21 @@
-language: php
+sudo: required
+language: node_js
+node_js:
+  - "6"
+  - "6.1"
+  - "5.11"
+  - "0.6"
+  - "iojs"
 
-php:
-  - 5.3.3
-  - 5.3
-  - 5.4
+services:
+  - docker
 
-before_script: composer install -n
+install:
+  - docker build -t volma .
+  - docker run -d -p 127.0.0.1:8081:8081 --name volma volma
 
-script: phpunit -c app
+before_script:
+  - npm install mocha
+
+script:
+  - docker ps | grep -q volma

@@ -1,4 +1,5 @@
 FROM node:argon
+MAINTAINER Ridwan Shariffdeen <ridwan.11@cse.mrt.ac.lk>
 
 # Create app directory
 RUN mkdir -p /usr/src/app
